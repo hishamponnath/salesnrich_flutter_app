@@ -3,8 +3,8 @@ import 'package:salesnrich_app_flutter/view/login_view.dart';
 import 'package:salesnrich_app_flutter/view/splash_view.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: loginscreen(),
+    home: SplashScreen(),
   ));
 }
