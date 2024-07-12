@@ -6,6 +6,6 @@ import 'package:salesnrich_app_flutter/view/splash_view.dart';
 void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: homescreen(),
+    home: loginscreen(),
   ));
 }
