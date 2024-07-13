@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:salesnrich_app_flutter/service/auth_service.dart';
+import 'package:salesnrich_app_flutter/view/home_view.dart';
 
 class loginscreen extends StatefulWidget {
   const loginscreen({super.key});
@@ -9,6 +11,20 @@ class loginscreen extends StatefulWidget {
 
 class _loginscreenState extends State<loginscreen> {
   final _loginKey = GlobalKey<FormState>();
+  TextEditingController _usernamecontroller = TextEditingController();
+  TextEditingController _passwordcontroller = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernamecontroller.dispose();
+    _passwordcontroller.dispose();
+    super.dispose();
+  }
+   void _showSnackbar(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +60,7 @@ class _loginscreenState extends State<loginscreen> {
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: TextFormField(
+                          controller: _usernamecontroller,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Enter a valid User Name";
@@ -58,8 +75,7 @@ class _loginscreenState extends State<loginscreen> {
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                  color: Colors.black), // Default border color
+                              borderSide: BorderSide(color: Colors.black),
                             ),
                           ),
                         ),
@@ -67,14 +83,14 @@ class _loginscreenState extends State<loginscreen> {
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: TextFormField(
+                          controller: _passwordcontroller,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Enter a valid Password";
                             }
                             return null;
                           },
-                          obscureText:
-                              true, // This makes the TextFormField a password field
+                          obscureText: true,
                           decoration: const InputDecoration(
                             hintText: "Password",
                             hintStyle: TextStyle(color: Colors.white),
@@ -83,8 +99,7 @@ class _loginscreenState extends State<loginscreen> {
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                  color: Colors.black), // Default border color
+                              borderSide: BorderSide(color: Colors.black),
                             ),
                           ),
                         ),
@@ -99,8 +114,28 @@ class _loginscreenState extends State<loginscreen> {
                           side: const BorderSide(color: Colors.black),
                           minimumSize: const Size(150, 40),
                         ),
-                        onPressed: () {
-                          if (_loginKey.currentState!.validate()) {}
+                        onPressed: () async {
+                          if (_loginKey.currentState!.validate()) {
+                            AuthService _authService = AuthService();
+                            final user = await _authService.login(
+                                _usernamecontroller.text,
+                                _passwordcontroller.text);
+                            if (user != null) {
+                              if (user != null) {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => homescreen(
+                                              user: user,
+                                            )),
+                                    (route) => false);
+                              }
+                            } 
+                             else {
+                              _showSnackbar('Invalid username or password');
+                            }
+                            
+                          }
                         },
                         child: const Text(
                           "LOGIN",

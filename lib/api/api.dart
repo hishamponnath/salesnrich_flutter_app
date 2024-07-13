@@ -1,5 +1,5 @@
 class API {
-  final String baseUrl = "https//salesnrich.com/api/";
-  final String authUrl = "authenticate";
-  final String allproducts = "documents";
+  final String baseUrl = "http://salesnrich.com";
+  final String authUrl = "/api/authenticate";
+  final String documentsUrl = "/api/documents";
 }
