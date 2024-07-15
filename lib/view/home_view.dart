@@ -3,15 +3,15 @@ import 'package:salesnrich_app_flutter/model/documentsmodel.dart';
 import 'package:salesnrich_app_flutter/model/usermodel.dart';
 import 'package:salesnrich_app_flutter/service/documents_service.dart';
 
-class homescreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final UserModel? user;
-  const homescreen({super.key, this.user});
+  const HomeScreen({super.key, this.user});
 
   @override
-  State<homescreen> createState() => _homescreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _homescreenState extends State<homescreen>
+class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   final DocumentsService _documentsService = DocumentsService();
   late TabController _tabController;

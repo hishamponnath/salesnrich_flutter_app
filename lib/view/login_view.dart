@@ -121,16 +121,14 @@ class _loginscreenState extends State<loginscreen> {
                                 _usernamecontroller.text,
                                 _passwordcontroller.text);
                             if (user != null) {
-                              if (user != null) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => homescreen(
-                                              user: user,
-                                            )),
-                                    (route) => false);
-                              }
-                            } 
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen(
+                                            user: user,
+                                          )),
+                                  (route) => false);
+                                                        } 
                              else {
                               _showSnackbar('Invalid username or password');
                             }
