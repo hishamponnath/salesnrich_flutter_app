@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 135, 167, 193),
+        backgroundColor: Colors.blue[800],
         title: const Text("Hisham"),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -103,7 +103,10 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       ),
       drawer: Drawer(
-        child: FutureBuilder(
+        
+        child: 
+      
+        FutureBuilder(
           future: _menuitemsService.getAllMenuItems(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -118,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen>
                     color: const Color.fromARGB(255, 135, 167, 193),
                     child: ListTile(
                       leading: CircleAvatar(
+                        backgroundColor: Colors.grey[800],
                         child: Icon(
                           menuIcons[index % menuIcons.length],
                           color: Colors.white,
@@ -159,10 +163,15 @@ class _HomeScreenState extends State<HomeScreen>
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => AcoountProfile()),
+                                builder: (context) => const AcoountProfile()),
                           );
                         },
-                        leading: const CircleAvatar(child: Icon(Icons.book)),
+                        leading: CircleAvatar(
+                            backgroundColor: Colors.grey[800],
+                            child: const Icon(
+                              Icons.book,
+                              color: Colors.white,
+                            )),
                         title: Text(
                           document.name ?? 'No Name',
                           style: const TextStyle(color: Colors.white),

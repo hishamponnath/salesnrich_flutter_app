@@ -22,8 +22,12 @@ class _AcoountProfileState extends State<AcoountProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue[800],
         centerTitle: true,
-        title: const Text("Account profile"),
+        title: const Text(
+          "Account profile",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
       body: FutureBuilder(
         future: _accountprofileService.getallaccountprofiles(),
@@ -39,7 +43,6 @@ class _AcoountProfileState extends State<AcoountProfile> {
                   elevation: 4.0,
                   color: const Color.fromARGB(255, 135, 167, 193),
                   child: ListTile(
-                    leading: const CircleAvatar(child: Icon(Icons.book)),
                     title: Text(
                       account.name ?? "No Name",
                       style: const TextStyle(
@@ -49,6 +52,15 @@ class _AcoountProfileState extends State<AcoountProfile> {
                       account.alias ?? 'No alias',
                       style: const TextStyle(
                           color: Colors.white), // White text color
+                    ),
+                    trailing: const Wrap(
+                      spacing: 12, // space between two icons
+                      children: <Widget>[
+                        Icon(
+                          Icons.call,
+                        ), // icon-1
+                        Icon(Icons.location_on), // icon-2
+                      ],
                     ),
                   ),
                 );
