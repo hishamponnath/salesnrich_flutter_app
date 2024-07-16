@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:salesnrich_app_flutter/view/login_view.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -18,33 +20,35 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     // Start the fade-in animation
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         _opacity = 1.0;
       });
     });
 
     // Navigate to HomeScreen after 3 seconds
-    Timer(Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 3), () {
       setState(() {
         _showSplash = false;
       });
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => loginscreen()),
+        MaterialPageRoute(builder: (context) => const loginscreen()),
       );
     });
   }
 
   @override
   Widget build(BuildContext context) {
+     
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      body: _showSplash
+      body: _showSplash 
+
           ? Center(
               child: AnimatedOpacity(
                 opacity: _opacity,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -54,8 +58,8 @@ class _SplashScreenState extends State<SplashScreen>
                       height: 200, // Increase height to make the image larger
                       fit: BoxFit.cover,
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       'SalesNrich',
                       style: TextStyle(
                         color: Colors.white,
