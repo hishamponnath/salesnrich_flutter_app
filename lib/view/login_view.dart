@@ -11,8 +11,8 @@ class loginscreen extends StatefulWidget {
 
 class _loginscreenState extends State<loginscreen> {
   final _loginKey = GlobalKey<FormState>();
-  TextEditingController _usernamecontroller = TextEditingController();
-  TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _usernamecontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
 
   @override
   void dispose() {
@@ -20,7 +20,8 @@ class _loginscreenState extends State<loginscreen> {
     _passwordcontroller.dispose();
     super.dispose();
   }
-   void _showSnackbar(String message) {
+
+  void _showSnackbar(String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -116,23 +117,19 @@ class _loginscreenState extends State<loginscreen> {
                         ),
                         onPressed: () async {
                           if (_loginKey.currentState!.validate()) {
-                            AuthService _authService = AuthService();
-                            final user = await _authService.login(
+                            AuthService authService = AuthService();
+                            final user = await authService.login(
                                 _usernamecontroller.text,
                                 _passwordcontroller.text);
                             if (user != null) {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen(
-                                            user: user,
-                                          )),
+                                      builder: (context) => const HomeScreen()),
                                   (route) => false);
-                                                        } 
-                             else {
+                            } else {
                               _showSnackbar('Invalid username or password');
                             }
-                            
                           }
                         },
                         child: const Text(

@@ -3,4 +3,5 @@ class API {
   final String authUrl = "/api/authenticate";
   final String documentsUrl = "/api/documents";
   final String drawerUrl = "/api/mobile-menu-items";
+  final String accountprofileUrl = "/api/location-account-profiles";
 }
