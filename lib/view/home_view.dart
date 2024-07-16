@@ -102,7 +102,43 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      drawer: const Drawer(),
+      drawer: Drawer(
+        child: FutureBuilder(
+          future: _menuitemsService.getAllMenuItems(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Menuitems> menuItemsList = snapshot.data!;
+              return ListView.builder(
+                itemCount: menuItemsList.length,
+                itemBuilder: (context, index) {
+                  Menuitems menuItem = menuItemsList[index];
+                  return Card(
+                    margin: const EdgeInsets.all(8.0),
+                    elevation: 4.0,
+                    color: const Color.fromARGB(255, 135, 167, 193),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        child: Icon(
+                          menuIcons[index % menuIcons.length],
+                          color: Colors.white,
+                        ),
+                      ),
+                      title: Text(
+                        menuItem.label ?? 'No Label',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+      ),
       body: TabBarView(
         controller: _tabController,
         children: [
