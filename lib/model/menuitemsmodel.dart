@@ -1,5 +1,5 @@
 class Menuitems {
-  Null? id;
+  dynamic id;
   String? name;
   String? label;
   String? lastModifiedDate;
