@@ -142,8 +142,8 @@ class AccountProfileModel {
     pin = json['pin'];
     latitude = json['latitude'];
     longitude = json['longitude'];
-    phone1 = json['phone1'];
-    phone2 = json['phone2'];
+    phone1 = json['phone1'.toString()];
+    phone2 = json['phone2'.toString()];
     email1 = json['email1'];
     email2 = json['email2'];
     whatsAppNo = json['whatsAppNo'];

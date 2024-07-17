@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen>
               Tab(text: "Payment Summary"),
             ],
             indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
+              borderRadius: BorderRadius.circular(20),
               color: const Color.fromARGB(255, 66, 133, 188),
             ),
             labelColor: Colors.white,
