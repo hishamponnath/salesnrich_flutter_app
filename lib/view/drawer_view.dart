@@ -11,6 +11,7 @@ class Drawerclass extends StatefulWidget {
 
 class _DrawerclassState extends State<Drawerclass> {
   final MenuitemsService _menuitemsService = MenuitemsService();
+
   @override
   Widget build(BuildContext context) {
     final List<IconData> menuIcons = [
@@ -40,33 +41,74 @@ class _DrawerclassState extends State<Drawerclass> {
       Icons.file_copy,
       Icons.switch_account_rounded,
     ];
+
     return FutureBuilder(
       future: _menuitemsService.getAllMenuItems(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Menuitems> menuItemsList = snapshot.data!;
           return ListView.builder(
-            itemCount: menuItemsList.length,
+            itemCount: menuItemsList.length + 1, // +1 for the DrawerHeader
             itemBuilder: (context, index) {
-              Menuitems menuItem = menuItemsList[index];
-              return Card(
-                margin: const EdgeInsets.all(8.0),
-                elevation: 4.0,
-                color: const Color.fromARGB(255, 135, 167, 193),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.grey[800],
-                    child: Icon(
-                      menuIcons[index % menuIcons.length],
-                      color: Colors.white,
+              if (index == 0) {
+                // DrawerHeader
+                return DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 19, 43, 63),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Colors.grey[800],
+                        child: Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Hisham',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        'h919216@gmail.com',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                Menuitems menuItem = menuItemsList[index - 1];
+                return Card(
+                  margin: const EdgeInsets.all(8.0),
+                  elevation: 4.0,
+                  color: const Color.fromARGB(255, 135, 167, 193),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.grey[800],
+                      child: Icon(
+                        menuIcons[(index - 1) % menuIcons.length],
+                        color: Colors.white,
+                      ),
+                    ),
+                    title: Text(
+                      menuItem.label ?? 'No Label',
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
-                  title: Text(
-                    menuItem.label ?? 'No Label',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              );
+                );
+              }
             },
           );
         }
