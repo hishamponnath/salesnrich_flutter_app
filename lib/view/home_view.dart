@@ -64,10 +64,37 @@ class _HomeScreenState extends State<HomeScreen>
       drawer: const Drawer(child: Drawerclass()),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          Documentsclass(),
-          Documentsclass(),
-          Documentsclass(),
+        children: [
+          Container(
+            child: const Column(
+              children: [
+                SizedBox(height: 300),
+                Expanded(
+                  child: Documentsclass(),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: const Column(
+              children: [
+                SizedBox(height: 300),
+                Expanded(
+                  child: Documentsclass(),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: const Column(
+              children: [
+                SizedBox(height: 300),
+                Expanded(
+                  child: Documentsclass(),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
