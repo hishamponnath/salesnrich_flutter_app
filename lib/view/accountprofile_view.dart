@@ -1,26 +1,34 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:salesnrich_app_flutter/model/accountprofilemodel.dart';
+import 'package:salesnrich_app_flutter/model/territoriesmodel.dart';
 import 'package:salesnrich_app_flutter/service/accountprofile_service.dart';
+import 'package:salesnrich_app_flutter/service/territories_service.dart';
+import 'package:salesnrich_app_flutter/view/drawer_view.dart';
 
-class AcoountProfile extends StatefulWidget {
-  const AcoountProfile({super.key});
+class AccountProfile extends StatefulWidget {
+  const AccountProfile({super.key});
 
   @override
-  State<AcoountProfile> createState() => _AcoountProfileState();
+  State<AccountProfile> createState() => _AccountProfileState();
 }
 
-class _AcoountProfileState extends State<AcoountProfile> {
+class _AccountProfileState extends State<AccountProfile> {
   final AccountprofileService _accountprofileService = AccountprofileService();
+  final TerritoryService _territoryService = TerritoryService();
   List<AccountProfileModel> _accountProfiles = [];
   List<AccountProfileModel> _filteredProfiles = [];
+  List<TerritoryModel> _territoryList = [];
   final TextEditingController _searchController = TextEditingController();
   bool _isLoading = true;
   bool _hasError = false;
+  TerritoryModel? _selectedTerritory;
 
   @override
   void initState() {
     super.initState();
     _fetchAccountProfiles();
+    _fetchTerritoriesData();
     _searchController.addListener(_filterProfiles);
   }
 
@@ -39,6 +47,20 @@ class _AcoountProfileState extends State<AcoountProfile> {
         _hasError = true;
         _isLoading = false;
       });
+    }
+  }
+
+  Future<void> _fetchTerritoriesData() async {
+    try {
+      List<TerritoryModel>? territoryList =
+          await _territoryService.getAllTerritories();
+      setState(() {
+        _territoryList = territoryList ?? [];
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -69,6 +91,9 @@ class _AcoountProfileState extends State<AcoountProfile> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
+      drawer: const Drawer(
+        child: Drawerclass(),
+      ),
       body: Column(
         children: [
           Padding(
@@ -76,10 +101,43 @@ class _AcoountProfileState extends State<AcoountProfile> {
             child: TextField(
               controller: _searchController,
               decoration: const InputDecoration(
+                fillColor: Colors.black38,
+                filled: true,
                 hintText: "Search Accounts",
                 border: OutlineInputBorder(),
               ),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: _territoryList.isEmpty
+                ? const CircularProgressIndicator()
+                : Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black38,
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: DropdownButton<TerritoryModel>(
+                      isExpanded: true,
+                      hint: const Text("Select Territory"),
+                      value: _selectedTerritory,
+                      items: _territoryList.map((TerritoryModel territory) {
+                        return DropdownMenuItem<TerritoryModel>(
+                          value: territory,
+                          child: Text(territory.name ?? "No Name"),
+                        );
+                      }).toList(),
+                      onChanged: (TerritoryModel? newValue) {
+                        setState(() {
+                          _selectedTerritory = newValue;
+                        });
+                      },
+                      underline: const SizedBox
+                          .shrink(), // Remove the default underline
+                    ),
+                  ),
           ),
           Expanded(
             child: _isLoading
@@ -126,6 +184,13 @@ class _AcoountProfileState extends State<AcoountProfile> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue[800],
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: () {}),
     );
   }
 }

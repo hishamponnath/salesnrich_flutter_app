@@ -31,7 +31,7 @@ class _DocumentsclassState extends State<Documentsclass> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (context) => const AcoountProfile()),
+                          builder: (context) => const AccountProfile()),
                     );
                   },
                   leading: CircleAvatar(
