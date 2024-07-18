@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:salesnrich_app_flutter/model/accountprofilemodel.dart';
 import 'package:salesnrich_app_flutter/model/territoriesmodel.dart';
 import 'package:salesnrich_app_flutter/service/accountprofile_service.dart';
 import 'package:salesnrich_app_flutter/service/territories_service.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
@@ -168,13 +170,18 @@ class _AccountProfileState extends State<AccountProfile> {
                                         color:
                                             Colors.white), // White text color
                                   ),
-                                  trailing: const Wrap(
+                                  trailing: Wrap(
                                     spacing: 12, // space between two icons
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.call,
-                                      ), // icon-1
-                                      Icon(Icons.location_on), // icon-2
+                                      IconButton(
+                                          onPressed: () async {
+                                            FlutterPhoneDirectCaller.callNumber(
+                                                account.phone1);
+                                          },
+                                          icon: const Icon(Icons.call)),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(Icons.location_on)),
                                     ],
                                   ),
                                 ),
@@ -190,7 +197,7 @@ class _AccountProfileState extends State<AccountProfile> {
             Icons.add,
             color: Colors.white,
           ),
-          onPressed: () {}),
+          onPressed: () async {}),
     );
   }
 }

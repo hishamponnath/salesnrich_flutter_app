@@ -38,6 +38,7 @@ dependencies:
   http: ^1.2.1
   shared_preferences: ^2.2.3
   local_auth: ^2.2.0
+  flutter_phone_direct_caller: ^2.1.1
 
 dev_dependencies:
   flutter_test:
