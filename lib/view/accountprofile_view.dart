@@ -5,6 +5,7 @@ import 'package:salesnrich_app_flutter/model/accountprofilemodel.dart';
 import 'package:salesnrich_app_flutter/model/territoriesmodel.dart';
 import 'package:salesnrich_app_flutter/service/accountprofile_service.dart';
 import 'package:salesnrich_app_flutter/service/territories_service.dart';
+import 'package:salesnrich_app_flutter/view/accountcreate_view.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
@@ -197,7 +198,14 @@ class _AccountProfileState extends State<AccountProfile> {
             Icons.add,
             color: Colors.white,
           ),
-          onPressed: () async {}),
+          onPressed: ()  {
+Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Accountprofilecreate()
+              ),
+            );
+            
+          }),
     );
   }
 }

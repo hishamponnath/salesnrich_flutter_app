@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:salesnrich_app_flutter/view/splash_view.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -21,6 +23,7 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData.light(),
+          //  color: Colors.white,
           darkTheme: ThemeData.dark(),
           themeMode: currentMode,
           home: SplashScreen(

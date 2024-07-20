@@ -17,12 +17,14 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ValueNotifier<double> _indicatorPositionNotifier;
+  late ValueNotifier<ThemeMode> _themeModeNotifier;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _indicatorPositionNotifier = ValueNotifier<double>(0.0);
+    _themeModeNotifier = ValueNotifier<ThemeMode>(ThemeMode.light);
 
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
@@ -35,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen>
   void dispose() {
     _tabController.dispose();
     _indicatorPositionNotifier.dispose();
+    _themeModeNotifier.dispose();
     super.dispose();
   }
 
@@ -45,13 +48,25 @@ class _HomeScreenState extends State<HomeScreen>
         backgroundColor: Colors.blue[800],
         title: const Text("Hisham"),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.brightness_6),
-            onPressed: () {
-              final isDarkMode =
-                  Theme.of(context).brightness == Brightness.dark;
-              widget.onThemeModeChanged(
-                  isDarkMode ? ThemeMode.light : ThemeMode.dark);
+          ValueListenableBuilder<ThemeMode>(
+            valueListenable: _themeModeNotifier,
+            builder: (context, themeMode, child) {
+              return IconButton(
+                icon: Icon(
+                  themeMode == ThemeMode.dark
+                      ? Icons.brightness_2
+                      : Icons.sunny,
+                  color:
+                      themeMode == ThemeMode.dark ? Colors.white : Colors.amber,
+                ),
+                onPressed: () {
+                  final isDarkMode = themeMode == ThemeMode.dark;
+                  final newThemeMode =
+                      isDarkMode ? ThemeMode.light : ThemeMode.dark;
+                  _themeModeNotifier.value = newThemeMode;
+                  widget.onThemeModeChanged(newThemeMode);
+                },
+              );
             },
           ),
         ],
@@ -77,36 +92,30 @@ class _HomeScreenState extends State<HomeScreen>
       drawer: const Drawer(child: Drawerclass()),
       body: TabBarView(
         controller: _tabController,
-        children:  [
-            Container(
-            child: const Column(
-              children: [
-                SizedBox(height: 300),
-                Expanded(
-                  child: Documentsclass(),
-                ),
-              ],
-            ),
+        children: const [
+          Column(
+            children: [
+              SizedBox(height: 300),
+              Expanded(
+                child: Documentsclass(),
+              ),
+            ],
           ),
-          Container(
-            child: const Column(
-              children: [
-                SizedBox(height: 300),
-                Expanded(
-                  child: Documentsclass(),
-                ),
-              ],
-            ),
+          Column(
+            children: [
+              SizedBox(height: 300),
+              Expanded(
+                child: Documentsclass(),
+              ),
+            ],
           ),
-          Container(
-            child: const Column(
-              children: [
-                SizedBox(height: 300),
-                Expanded(
-                  child: Documentsclass(),
-                ),
-              ],
-            ),
+          Column(
+            children: [
+              SizedBox(height: 300),
+              Expanded(
+                child: Documentsclass(),
+              ),
+            ],
           ),
         ],
       ),
