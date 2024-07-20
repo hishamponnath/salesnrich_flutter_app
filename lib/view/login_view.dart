@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:salesnrich_app_flutter/service/auth_service.dart';
 import 'package:salesnrich_app_flutter/view/home_view.dart';
 
-class loginscreen extends StatefulWidget {
-  const loginscreen({super.key});
+class LoginScreen extends StatefulWidget {
+  final ValueChanged<ThemeMode> onThemeModeChanged;
+
+  const LoginScreen({super.key, required this.onThemeModeChanged});
 
   @override
-  State<loginscreen> createState() => _loginscreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _loginscreenState extends State<loginscreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _loginKey = GlobalKey<FormState>();
   final TextEditingController _usernamecontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
@@ -125,7 +127,10 @@ class _loginscreenState extends State<loginscreen> {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomeScreen()),
+                                      builder: (context) => HomeScreen(
+                                          user: user,
+                                          onThemeModeChanged:
+                                              widget.onThemeModeChanged)),
                                   (route) => false);
                             } else {
                               _showSnackbar('Invalid username or password');

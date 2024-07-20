@@ -5,7 +5,9 @@ import 'package:salesnrich_app_flutter/view/drawer_view.dart';
 
 class HomeScreen extends StatefulWidget {
   final UserModel? user;
-  const HomeScreen({super.key, this.user});
+  final ValueChanged<ThemeMode> onThemeModeChanged;
+
+  const HomeScreen({super.key, this.user, required this.onThemeModeChanged});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -42,6 +44,17 @@ class _HomeScreenState extends State<HomeScreen>
       appBar: AppBar(
         backgroundColor: Colors.blue[800],
         title: const Text("Hisham"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.brightness_6),
+            onPressed: () {
+              final isDarkMode =
+                  Theme.of(context).brightness == Brightness.dark;
+              widget.onThemeModeChanged(
+                  isDarkMode ? ThemeMode.light : ThemeMode.dark);
+            },
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: TabBar(
@@ -64,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen>
       drawer: const Drawer(child: Drawerclass()),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          Container(
+        children:  [
+            Container(
             child: const Column(
               children: [
                 SizedBox(height: 300),

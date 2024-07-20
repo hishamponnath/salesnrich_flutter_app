@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:salesnrich_app_flutter/view/login_view.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final ValueChanged<ThemeMode> onThemeModeChanged;
+
+  const SplashScreen({super.key, required this.onThemeModeChanged});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -26,25 +27,27 @@ class _SplashScreenState extends State<SplashScreen>
       });
     });
 
-    // Navigate to HomeScreen after 3 seconds
+    // Navigate to LoginScreen after 3 seconds
     Timer(const Duration(seconds: 3), () {
       setState(() {
         _showSplash = false;
       });
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const loginscreen()),
+        MaterialPageRoute(
+          builder: (context) => LoginScreen(
+            onThemeModeChanged: widget.onThemeModeChanged,
+          ),
+        ),
       );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-     
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      body: _showSplash 
-
+      body: _showSplash
           ? Center(
               child: AnimatedOpacity(
                 opacity: _opacity,
