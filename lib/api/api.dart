@@ -4,5 +4,6 @@ class API {
   final String documentsUrl = "/api/documents";
   final String drawerUrl = "/api/mobile-menu-items";
   final String accountprofileUrl = "/api/location-account-profiles";
-   final String territoriesUrl = "/api/territories";
+  final String territoriesUrl = "/api/territories";
+  final String attendanceurl = "/api/load-server-attendence";
 }

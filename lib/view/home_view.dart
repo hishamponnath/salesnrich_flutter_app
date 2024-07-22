@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salesnrich_app_flutter/model/usermodel.dart';
+import 'package:salesnrich_app_flutter/view/attendance_view.dart';
 import 'package:salesnrich_app_flutter/view/documents_view.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
 
@@ -48,6 +49,17 @@ class _HomeScreenState extends State<HomeScreen>
         backgroundColor: Colors.blue[800],
         title: const Text("Hisham"),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => const AttendanceView()),
+                );
+              },
+              icon: const Icon(
+                Icons.hdr_auto_outlined,
+                color: Colors.white,
+              )),
           ValueListenableBuilder<ThemeMode>(
             valueListenable: _themeModeNotifier,
             builder: (context, themeMode, child) {
