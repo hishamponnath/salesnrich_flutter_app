@@ -1,24 +1,23 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:salesnrich_app_flutter/api/api.dart';
-import 'package:salesnrich_app_flutter/model/accountprofilemodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:salesnrich_app_flutter/api/api.dart';
+import 'package:salesnrich_app_flutter/model/accountmodel.dart';
 
-class AccountprofileService {
-  final Client = http.Client();
+class AccountService {
+  final http.Client client = http.Client();
 
-  Future<List<AccountProfileModel>> getAccountProfiles(int page) async {
+  Future<List<AccountModel>> getAccount() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    List<AccountProfileModel> accountprofileList = [];
+    List<AccountModel> accountList = [];
     final token = pref.get('token');
     if (kDebugMode) {
       print(token);
     }
     try {
-      final response = await http.get(
-        Uri.parse(
-            "${API().baseUrl}${API().accountprofileUrl}?page=$page&size=25"),
+      final response = await client.get(
+        Uri.parse("${API().baseUrl}${API().accountUrl}"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -28,10 +27,10 @@ class AccountprofileService {
         final responseBody = jsonDecode(response.body);
 
         for (var element in responseBody) {
-          var accountProfileModel = AccountProfileModel.fromJson(element);
-          accountprofileList.add(accountProfileModel);
+          var accountModel = AccountModel.fromJson(element);
+          accountList.add(accountModel);
           if (kDebugMode) {
-            print(accountProfileModel);
+            print(accountModel);
           }
         }
       }
@@ -40,6 +39,6 @@ class AccountprofileService {
         print("$e");
       }
     }
-    return accountprofileList;
+    return accountList;
   }
 }

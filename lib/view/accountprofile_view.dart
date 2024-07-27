@@ -52,7 +52,7 @@ class _AccountProfileState extends State<AccountProfile> {
         _filteredProfiles.addAll(profiles);
         _isLoading = false;
         _currentPage++;
-        if (profiles.length < 50) {
+        if (profiles.length < 25) {
           _hasMoreData = false;
         }
       });

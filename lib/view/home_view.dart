@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:salesnrich_app_flutter/model/usermodel.dart';
+import 'package:salesnrich_app_flutter/service/account_service.dart';
 import 'package:salesnrich_app_flutter/view/attendance_view.dart';
 import 'package:salesnrich_app_flutter/view/documents_view.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
+import 'package:salesnrich_app_flutter/model/accountmodel.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final UserModel? user;
@@ -19,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen>
   late TabController _tabController;
   late ValueNotifier<double> _indicatorPositionNotifier;
   late ValueNotifier<ThemeMode> _themeModeNotifier;
+  late Future<AccountModel> _accountFuture;
 
   @override
   void initState() {
@@ -32,7 +36,19 @@ class _HomeScreenState extends State<HomeScreen>
         _indicatorPositionNotifier.value = _tabController.index.toDouble();
       }
     });
+
+    _accountFuture = _fetchAccount();
   }
+
+ Future<AccountModel> _fetchAccount() async {
+    final accountService =
+        AccountService(); // Create an instance of AccountService
+    final accountList = await accountService.getAccount(); // Fetch account list
+    return accountList.isNotEmpty
+        ? accountList[0]
+        : AccountModel(); // Return the first account or a default
+  }
+
 
   @override
   void dispose() {
@@ -47,7 +63,21 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[800],
-        title: const Text("Hisham"),
+        title: FutureBuilder<AccountModel>(
+          future: _accountFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Text("Loading...");
+            } else if (snapshot.hasError) {
+              return const Text("Error");
+            } else if (snapshot.hasData) {
+              final employeeName = snapshot.data?.employeeName ?? "No Name";
+              return Text(employeeName);
+            } else {
+              return const Text("No Data");
+            }
+          },
+        ),
         actions: [
           IconButton(
               onPressed: () {

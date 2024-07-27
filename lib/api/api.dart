@@ -6,4 +6,5 @@ class API {
   final String accountprofileUrl = "/api/location-account-profiles";
   final String territoriesUrl = "/api/territories";
   final String attendanceurl = "/api/load-server-attendence";
+  final String accountUrl = "/api/account";
 }
