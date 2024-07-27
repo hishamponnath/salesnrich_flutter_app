@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AccountprofileService {
   final Client = http.Client();
 
-  Future<List<AccountProfileModel>> getallaccountprofiles() async {
+  Future<List<AccountProfileModel>> getAccountProfiles(int page) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     List<AccountProfileModel> accountprofileList = [];
     final token = pref.get('token');
@@ -16,27 +16,22 @@ class AccountprofileService {
       print(token);
     }
     try {
-      for (int i = 0; i <= 100; i++) {
-        final resposnse = await http.get(
-          Uri.parse(
-              "${API().baseUrl}${API().accountprofileUrl}?page=$i&size=1000"),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        );
-        if (resposnse.statusCode == 200) {
-          final responseBody = jsonDecode(resposnse.body);
+      final response = await http.get(
+        Uri.parse(
+            "${API().baseUrl}${API().accountprofileUrl}?page=$page&size=50"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
 
-          for (var element in responseBody) {
-            var accountProfileModel = AccountProfileModel.fromJson(element);
-            accountprofileList.add(accountProfileModel);
-            if (kDebugMode) {
-              print(accountProfileModel);
-            }
-          }
-          if (accountprofileList.length <= 1000) {
-            break;
+        for (var element in responseBody) {
+          var accountProfileModel = AccountProfileModel.fromJson(element);
+          accountprofileList.add(accountProfileModel);
+          if (kDebugMode) {
+            print(accountProfileModel);
           }
         }
       }

@@ -7,7 +7,6 @@ import 'package:salesnrich_app_flutter/service/accountprofile_service.dart';
 import 'package:salesnrich_app_flutter/service/territories_service.dart';
 import 'package:salesnrich_app_flutter/view/accountcreate_view.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
@@ -19,11 +18,14 @@ class AccountProfile extends StatefulWidget {
 class _AccountProfileState extends State<AccountProfile> {
   final AccountprofileService _accountprofileService = AccountprofileService();
   final TerritoryService _territoryService = TerritoryService();
-  List<AccountProfileModel> _accountProfiles = [];
+  final List<AccountProfileModel> _accountProfiles = [];
   List<AccountProfileModel> _filteredProfiles = [];
   List<TerritoryModel> _territoryList = [];
   final TextEditingController _searchController = TextEditingController();
-  bool _isLoading = true;
+  final ScrollController _scrollController = ScrollController();
+  int _currentPage = 0;
+  bool _isLoading = false;
+  bool _hasMoreData = true;
   bool _hasError = false;
   TerritoryModel? _selectedTerritory;
 
@@ -33,16 +35,26 @@ class _AccountProfileState extends State<AccountProfile> {
     _fetchAccountProfiles();
     _fetchTerritoriesData();
     _searchController.addListener(_filterProfiles);
+    _scrollController.addListener(_onScroll);
   }
 
   Future<void> _fetchAccountProfiles() async {
+    if (_isLoading) return;
+    setState(() {
+      _isLoading = true;
+    });
+
     try {
       List<AccountProfileModel> profiles =
-          await _accountprofileService.getallaccountprofiles();
+          await _accountprofileService.getAccountProfiles(_currentPage);
       setState(() {
-        _accountProfiles = profiles;
-        _filteredProfiles = profiles;
+        _accountProfiles.addAll(profiles);
+        _filteredProfiles.addAll(profiles);
         _isLoading = false;
+        _currentPage++;
+        if (profiles.length < 50) {
+          _hasMoreData = false;
+        }
       });
     } catch (error) {
       print("Error fetching account profiles: $error");
@@ -77,9 +89,19 @@ class _AccountProfileState extends State<AccountProfile> {
     });
   }
 
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !_isLoading &&
+        _hasMoreData) {
+      _fetchAccountProfiles();
+    }
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -137,21 +159,26 @@ class _AccountProfileState extends State<AccountProfile> {
                           _selectedTerritory = newValue;
                         });
                       },
-                      underline: const SizedBox
-                          .shrink(), // Remove the default underline
+                      underline: const SizedBox.shrink(),
                     ),
                   ),
           ),
           Expanded(
-            child: _isLoading
+            child: _isLoading && _accountProfiles.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : _hasError
                     ? const Center(child: Text('Error fetching data'))
                     : _filteredProfiles.isEmpty
                         ? const Center(child: Text('No profiles found'))
                         : ListView.builder(
-                            itemCount: _filteredProfiles.length,
+                            controller: _scrollController,
+                            itemCount:
+                                _filteredProfiles.length + (_isLoading ? 1 : 0),
                             itemBuilder: (context, index) {
+                              if (index == _filteredProfiles.length) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
                               AccountProfileModel account =
                                   _filteredProfiles[index];
                               return Card(
@@ -161,28 +188,30 @@ class _AccountProfileState extends State<AccountProfile> {
                                 child: ListTile(
                                   title: Text(
                                     account.name ?? "No Name",
-                                    style: const TextStyle(
-                                        color:
-                                            Colors.white), // White text color
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                   subtitle: Text(
                                     account.phone1.toString(),
-                                    style: const TextStyle(
-                                        color:
-                                            Colors.white), // White text color
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                   trailing: Wrap(
-                                    spacing: 12, // space between two icons
+                                    spacing: 12,
                                     children: <Widget>[
                                       IconButton(
                                           onPressed: () async {
                                             FlutterPhoneDirectCaller.callNumber(
                                                 account.phone1);
                                           },
-                                          icon: const Icon(Icons.call)),
+                                          icon: Icon(
+                                            Icons.call,
+                                            color: Colors.green[800],
+                                          )),
                                       IconButton(
                                           onPressed: () {},
-                                          icon: const Icon(Icons.location_on)),
+                                          icon: Icon(
+                                            Icons.location_on,
+                                            color: Colors.red[800],
+                                          )),
                                     ],
                                   ),
                                 ),
@@ -198,13 +227,11 @@ class _AccountProfileState extends State<AccountProfile> {
             Icons.add,
             color: Colors.white,
           ),
-          onPressed: ()  {
-Navigator.of(context).push(
+          onPressed: () {
+            Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => Accountprofilecreate()
-              ),
+                  builder: (context) => const Accountprofilecreate()),
             );
-            
           }),
     );
   }

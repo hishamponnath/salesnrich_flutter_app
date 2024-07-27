@@ -55,8 +55,8 @@ class _DrawerclassState extends State<Drawerclass> {
               if (index == 0) {
                 // DrawerHeader
                 return DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 19, 43, 63),
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 19, 43, 63),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -65,22 +65,22 @@ class _DrawerclassState extends State<Drawerclass> {
                       CircleAvatar(
                         radius: 30,
                         backgroundColor: Colors.grey[800],
-                        child: Icon(
+                        child: const Icon(
                           Icons.person,
                           size: 50,
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         'Hisham',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                         ),
                       ),
-                      SizedBox(height: 5),
-                      Text(
+                      const SizedBox(height: 5),
+                      const Text(
                         'h919216@gmail.com',
                         style: TextStyle(
                           color: Colors.white70,
@@ -114,13 +114,13 @@ class _DrawerclassState extends State<Drawerclass> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AttendanceScreen()),
+                              builder: (context) => const AttendanceScreen()),
                         );
                       } else if (menuItem.label == 'Punch Out') {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PunchOutScreen()),
+                              builder: (context) => const PunchOutScreen()),
                         );
                       }
                       // Add more conditions here for other menu items if needed
