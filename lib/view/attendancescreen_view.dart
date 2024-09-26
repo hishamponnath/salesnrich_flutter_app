@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
+import 'package:salesnrich_app_flutter/view/attendance_view.dart'; // Import AttendanceView
 
 class AttendanceScreen extends StatelessWidget {
   const AttendanceScreen({Key? key}) : super(key: key);
@@ -72,7 +73,14 @@ class AttendanceScreen extends StatelessWidget {
             Flexible(
               flex: 1,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Navigate to AttendanceView when "View" button is pressed
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AttendanceView()),
+                  );
+                },
                 child: const Text("View"),
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
@@ -88,7 +96,9 @@ class AttendanceScreen extends StatelessWidget {
             Flexible(
               flex: 1,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Add send functionality here
+                },
                 child: const Text("Send"),
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.greenAccent,
@@ -104,7 +114,9 @@ class AttendanceScreen extends StatelessWidget {
             Flexible(
               flex: 1,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Add photo upload functionality here
+                },
                 child: Icon(
                   Icons.photo,
                   color: Colors.white,
@@ -124,7 +136,9 @@ class AttendanceScreen extends StatelessWidget {
             Flexible(
               flex: 1,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Add camera functionality here
+                },
                 child: Icon(
                   Icons.camera_alt,
                   color: Colors.white,
