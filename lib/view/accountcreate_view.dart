@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:salesnrich_app_flutter/model/sundrymodel.dart';
+import 'package:salesnrich_app_flutter/service/sundry_service.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
 
 class Accountprofilecreate extends StatefulWidget {
@@ -9,6 +11,11 @@ class Accountprofilecreate extends StatefulWidget {
 }
 
 class _AccountprofilecreateState extends State<Accountprofilecreate> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -232,36 +239,56 @@ class DemoDropDown extends StatefulWidget {
 
 class _DemoDropDownState extends State<DemoDropDown> {
   String? selectedValue;
-  List<String> items = ["1", "2", "3"];
+  List<String> items = [];
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: DropdownButton<String>(
-          isExpanded: true,
-          hint: const Text("Sundry Debtors"),
-          value: selectedValue,
-          items: items.map((String item) {
-            return DropdownMenuItem<String>(
-              value: item,
-              child: Text(item),
+    return FutureBuilder(
+        future: SundryService().getAllSundry(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<SundryModel> sundryList = snapshot.data!;
+            
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  hint: const Text("Sundry Debtors"),
+                  value: selectedValue,
+                  items: null,
+                  onChanged: (String? newValue) {},
+                  underline:
+                      const SizedBox.shrink(), // Remove the default underline
+                ),
+              ),
             );
-          }).toList(),
-          onChanged: (String? newValue) {
-            setState(() {
-              selectedValue = newValue;
-            });
-          },
-          underline: const SizedBox.shrink(), // Remove the default underline
-        ),
-      ),
-    );
+          }
+
+          return Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: DropdownButton<String>(
+                isExpanded: true,
+                hint: const Text("Sundry Debtors"),
+                value: selectedValue,
+                items: null,
+                onChanged: (String? newValue) {},
+                underline:
+                    const SizedBox.shrink(), // Remove the default underline
+              ),
+            ),
+          );
+        });
   }
 }

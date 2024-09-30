@@ -1,7 +1,7 @@
 class AccountModel {
   int? id;
   String? pid;
-  Null? companyId;
+  Null companyId;
   String? companyPid;
   String? companyName;
   String? gstNumber;
@@ -18,7 +18,7 @@ class AccountModel {
   String? deviceKey;
   List<String>? authorities;
   bool? showAllUserData;
-  Null? chartColor;
+  Null chartColor;
   String? dashboardUIType;
   bool? discontinued;
   String? employeeName;
@@ -84,33 +84,33 @@ class AccountModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['pid'] = this.pid;
-    data['companyId'] = this.companyId;
-    data['companyPid'] = this.companyPid;
-    data['companyName'] = this.companyName;
-    data['gstNumber'] = this.gstNumber;
-    data['companyPhoneNo'] = this.companyPhoneNo;
-    data['companyAddress'] = this.companyAddress;
-    data['companyEmail'] = this.companyEmail;
-    data['login'] = this.login;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['email'] = this.email;
-    data['mobile'] = this.mobile;
-    data['activated'] = this.activated;
-    data['langKey'] = this.langKey;
-    data['deviceKey'] = this.deviceKey;
-    data['authorities'] = this.authorities;
-    data['showAllUserData'] = this.showAllUserData;
-    data['chartColor'] = this.chartColor;
-    data['dashboardUIType'] = this.dashboardUIType;
-    data['discontinued'] = this.discontinued;
-    data['employeeName'] = this.employeeName;
-    data['employeeAlias'] = this.employeeAlias;
-    data['userPassword'] = this.userPassword;
-    data['enableModcFeature'] = this.enableModcFeature;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['pid'] = pid;
+    data['companyId'] = companyId;
+    data['companyPid'] = companyPid;
+    data['companyName'] = companyName;
+    data['gstNumber'] = gstNumber;
+    data['companyPhoneNo'] = companyPhoneNo;
+    data['companyAddress'] = companyAddress;
+    data['companyEmail'] = companyEmail;
+    data['login'] = login;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['email'] = email;
+    data['mobile'] = mobile;
+    data['activated'] = activated;
+    data['langKey'] = langKey;
+    data['deviceKey'] = deviceKey;
+    data['authorities'] = authorities;
+    data['showAllUserData'] = showAllUserData;
+    data['chartColor'] = chartColor;
+    data['dashboardUIType'] = dashboardUIType;
+    data['discontinued'] = discontinued;
+    data['employeeName'] = employeeName;
+    data['employeeAlias'] = employeeAlias;
+    data['userPassword'] = userPassword;
+    data['enableModcFeature'] = enableModcFeature;
     return data;
   }
 }

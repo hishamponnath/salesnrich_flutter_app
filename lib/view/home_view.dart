@@ -6,7 +6,6 @@ import 'package:salesnrich_app_flutter/view/documents_view.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
 import 'package:salesnrich_app_flutter/model/accountmodel.dart';
 
-
 class HomeScreen extends StatefulWidget {
   final UserModel? user;
   final ValueChanged<ThemeMode> onThemeModeChanged;
@@ -40,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen>
     _accountFuture = _fetchAccount();
   }
 
- Future<AccountModel> _fetchAccount() async {
+  Future<AccountModel> _fetchAccount() async {
     final accountService =
         AccountService(); // Create an instance of AccountService
     final accountList = await accountService.getAccount(); // Fetch account list
@@ -48,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen>
         ? accountList[0]
         : AccountModel(); // Return the first account or a default
   }
-
 
   @override
   void dispose() {
@@ -62,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white, 
+        ),
         backgroundColor: Colors.blue[800],
         title: FutureBuilder<AccountModel>(
           future: _accountFuture,

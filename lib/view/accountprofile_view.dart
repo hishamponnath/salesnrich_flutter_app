@@ -7,6 +7,7 @@ import 'package:salesnrich_app_flutter/service/accountprofile_service.dart';
 import 'package:salesnrich_app_flutter/service/territories_service.dart';
 import 'package:salesnrich_app_flutter/view/accountcreate_view.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
+import 'package:salesnrich_app_flutter/view/inventory.dart';
 
 class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
@@ -109,6 +110,9 @@ class _AccountProfileState extends State<AccountProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         backgroundColor: Colors.blue[800],
         centerTitle: true,
         title: const Text(
@@ -214,6 +218,14 @@ class _AccountProfileState extends State<AccountProfile> {
                                           )),
                                     ],
                                   ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const InventoryView()),
+                                    );
+                                  },
                                 ),
                               );
                             },

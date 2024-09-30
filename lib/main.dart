@@ -23,6 +23,7 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData.light(),
+          
           //  color: Colors.white,
           darkTheme: ThemeData.dark(),
           themeMode: currentMode,

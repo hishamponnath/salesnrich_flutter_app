@@ -7,4 +7,5 @@ class API {
   final String territoriesUrl = "/api/territories";
   final String attendanceurl = "/api/load-server-attendence";
   final String accountUrl = "/api/account";
+  final String SundryUrl = "/api/activities";
 }
