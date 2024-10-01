@@ -14,7 +14,7 @@ class SundryService {
     final token = pref.getString('token');
     try {
       final response = await Client.get(
-          Uri.parse("${API().baseUrl}${API().SundryUrl}"),
+          Uri.parse("${API().baseUrl}${API().sundryUrl}"),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token',

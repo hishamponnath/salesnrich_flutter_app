@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:salesnrich_app_flutter/model/inventorymodel.dart';
+import 'package:salesnrich_app_flutter/service/inventory_service.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
 
 class InventoryView extends StatefulWidget {
@@ -16,6 +18,14 @@ class _InventoryViewState extends State<InventoryView> {
   String? _selectedItemDropdown1;
   String? _selectedItemDropdown2;
   final TextEditingController _searchController = TextEditingController();
+
+  final InventoryService _inventoryService = InventoryService();
+
+  @override
+  void initState() {
+    _inventoryService.getAllInventory();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +50,14 @@ class _InventoryViewState extends State<InventoryView> {
             padding: EdgeInsets.all(10.0),
             child: Text(
               "Doc Name",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 15),
             ),
           ),
           const Padding(
             padding: EdgeInsets.all(10.0),
             child: Text(
               "Doc No",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 15),
             ),
           ),
           Padding(
@@ -124,7 +134,7 @@ class _InventoryViewState extends State<InventoryView> {
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      labelText: 'Search items',
+                      labelText: 'Search Product',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -146,26 +156,27 @@ class _InventoryViewState extends State<InventoryView> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                color: Colors.amberAccent,
-                child: ListView.builder(
-                  itemCount: 15, // Creating 15 ListTiles
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: const Icon(
-                          Icons.person), // Icon at the start of the tile
-                      title: Text('Item ${index + 1}'), // Title of the ListTile
-                      subtitle: const Text(
-                          'This is a subtitle'), // Subtitle below the title
-                      trailing: const Icon(
-                          Icons.arrow_forward), // Icon at the end of the tile
-                      onTap: () {
-                        // Handle tap event
-                        print('Tapped on item ${index + 1}');
-                      },
-                    );
-                  },
-                ),
-              ),
+                  color: Colors.grey,
+                  child: FutureBuilder(
+                      future: _inventoryService.getAllInventory(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<inventorymodel> inventory = snapshot.data!;
+
+                          return ListView.builder(
+                              itemCount: inventory.length,
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  child: ListTile(
+                                    title: Text(inventory[index].name!),
+                                  ),
+                                );
+                              });
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      })),
             ),
           ),
         ],
