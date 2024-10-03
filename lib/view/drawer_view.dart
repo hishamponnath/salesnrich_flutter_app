@@ -3,6 +3,7 @@ import 'package:salesnrich_app_flutter/model/menuitemsmodel.dart';
 import 'package:salesnrich_app_flutter/service/menuitems_service.dart';
 import 'package:salesnrich_app_flutter/view/attendancescreen_view.dart';
 import 'package:salesnrich_app_flutter/view/punchoutscreen_view.dart';
+import 'package:salesnrich_app_flutter/view/settings.dart';
 
 class Drawerclass extends StatefulWidget {
   const Drawerclass({super.key});
@@ -121,6 +122,12 @@ class _DrawerclassState extends State<Drawerclass> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const PunchOutScreen()),
+                        );
+                      } else if (menuItem.label == 'Settings') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Settings_view()),
                         );
                       }
                       // Add more conditions here for other menu items if needed
