@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
-          color: Colors.white, 
+          color: Colors.white,
         ),
         backgroundColor: Colors.blue[800],
         title: FutureBuilder<AccountModel>(
