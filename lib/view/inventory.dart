@@ -196,7 +196,7 @@ class _InventoryViewState extends State<InventoryView> {
                           final List<ProductgroupModel?> product =
                               snapshot.data!;
                           return SizedBox(
-                            height: 00,
+                            height: 200,
                             width: 300,
                             child: ListView.builder(
                                 itemCount: product.length,
