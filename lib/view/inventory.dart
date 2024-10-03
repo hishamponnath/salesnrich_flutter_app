@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:salesnrich_app_flutter/model/inventorymodel.dart';
+import 'package:salesnrich_app_flutter/model/productgroupmodel.dart';
 import 'package:salesnrich_app_flutter/service/inventory_service.dart';
+import 'package:salesnrich_app_flutter/service/productgroup_service.dart';
 import 'package:salesnrich_app_flutter/view/drawer_view.dart';
 
 class InventoryView extends StatefulWidget {
@@ -20,6 +22,7 @@ class _InventoryViewState extends State<InventoryView> {
   final TextEditingController _searchController = TextEditingController();
 
   final InventoryService _inventoryService = InventoryService();
+  final ProductgroupService _productgroupService = ProductgroupService();
 
   @override
   void initState() {
@@ -41,8 +44,7 @@ class _InventoryViewState extends State<InventoryView> {
         ),
         backgroundColor: Colors.blue[800],
       ),
-
-      drawer: const Drawer(child: Drawerclass()), // Add your custom drawer here
+      drawer: const Drawer(child: Drawerclass()),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -63,58 +65,46 @@ class _InventoryViewState extends State<InventoryView> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
-              width:
-                  MediaQuery.of(context).size.width, // Set width to full screen
+              width: MediaQuery.of(context).size.width,
               child: DropdownButton<String>(
-                hint:
-                    const Text('Select an item'), // Hint text for the dropdown
-                value:
-                    _selectedItemDropdown1, // Currently selected item for the first dropdown
-                isExpanded: true, // Make the dropdown take full width
+                hint: const Text('Select an item'),
+                value: _selectedItemDropdown1,
+                isExpanded: true,
                 items: _items.map((String item) {
-                  // Mapping the list of items to DropdownMenuItems
                   return DropdownMenuItem<String>(
                     value: item,
                     child: Text(item),
                   );
                 }).toList(),
                 onChanged: (String? newValue) {
-                  // Handling item selection for the first dropdown
                   setState(() {
                     _selectedItemDropdown1 = newValue;
                   });
                 },
-                icon: const Icon(
-                    Icons.arrow_downward), // Custom icon for the dropdown
+                icon: const Icon(Icons.arrow_downward),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
-              width:
-                  MediaQuery.of(context).size.width, // Set width to full screen
+              width: MediaQuery.of(context).size.width,
               child: DropdownButton<String>(
-                hint:
-                    const Text('Select an item'), // Hint text for the dropdown
-                value:
-                    _selectedItemDropdown2, // Currently selected item for the second dropdown
-                isExpanded: true, // Make the dropdown take full width
+                hint: const Text('Select an item'),
+                value: _selectedItemDropdown2,
+                isExpanded: true,
                 items: _items.map((String item) {
-                  // Mapping the list of items to DropdownMenuItems
                   return DropdownMenuItem<String>(
                     value: item,
                     child: Text(item),
                   );
                 }).toList(),
                 onChanged: (String? newValue) {
-                  // Handling item selection for the second dropdown
                   setState(() {
                     _selectedItemDropdown2 = newValue;
                   });
                 },
-                icon: const Icon(
-                    Icons.arrow_downward), // Custom icon for the dropdown
+                icon: const Icon(Icons.arrow_downward),
               ),
             ),
           ),
@@ -125,7 +115,6 @@ class _InventoryViewState extends State<InventoryView> {
               style: TextStyle(fontSize: 18),
             ),
           ),
-          // Row to include search bar and filter button
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -145,8 +134,7 @@ class _InventoryViewState extends State<InventoryView> {
                 IconButton(
                   icon: const Icon(Icons.filter_list), // Filter icon
                   onPressed: () {
-                    // Add filter functionality here
-                    print("Filter button pressed");
+                    ProductGroupDialog();
                   },
                 ),
               ],
@@ -171,7 +159,7 @@ class _InventoryViewState extends State<InventoryView> {
                                     title: Text(inventory[index].name!),
                                   ),
                                 );
-                              });
+                              }); //listview.builder
                         }
                         return const Center(
                           child: CircularProgressIndicator(),
@@ -181,6 +169,71 @@ class _InventoryViewState extends State<InventoryView> {
           ),
         ],
       ),
+    );
+  }
+
+  void ProductGroupDialog() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+            child: Text(
+              'Product Group',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          content: SizedBox(
+            height: 200,
+            width: 300,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  FutureBuilder(
+                      future: _productgroupService.getAllProductgroup(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final List<ProductgroupModel?> product =
+                              snapshot.data!;
+                          return SizedBox(
+                            height: 00,
+                            width: 300,
+                            child: ListView.builder(
+                                itemCount: product.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(
+                                        "${product[index]?.productGroupDTO!.name}"),
+                                  );
+                                }),
+                          );
+                        }
+                        return const CircularProgressIndicator();
+                      }),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            SizedBox(
+              width: double.maxFinite,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[800],
+                  shape: const RoundedRectangleBorder(),
+                ),
+                child: const Text(
+                  'Apply',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

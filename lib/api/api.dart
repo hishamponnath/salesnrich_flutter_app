@@ -8,5 +8,9 @@ class API {
   final String attendanceurl = "/api/load-server-attendence";
   final String accountUrl = "/api/account";
   final String sundryUrl = "/api/activities";
-    final String inventoryUrl = "/api/product-profiles";
+  final String inventoryUrl = "/api/product-profiles";
+  final String productgroupUrl = "/api/product-group-products";
+
+  get allProductgroup => null;
+
 }

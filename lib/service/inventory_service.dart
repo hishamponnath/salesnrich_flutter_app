@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:salesnrich_app_flutter/api/api.dart';
 import 'package:salesnrich_app_flutter/model/inventorymodel.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InventoryService {
