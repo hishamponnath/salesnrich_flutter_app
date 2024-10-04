@@ -200,37 +200,49 @@ class _InventoryViewState extends State<InventoryView> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          content: SizedBox(
-            height: 200,
-            width: 300,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  FutureBuilder(
-                    future: _productgroupService.getAllProductgroup(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final List<ProductgroupModel?> product = snapshot.data!;
-                        return SizedBox(
-                          height: 200,
-                          width: 300,
-                          child: ListView.builder(
-                            itemCount: product.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(
-                                    "${product[index]?.productGroupDTO!.name}"),
-                              );
-                            },
-                          ),
-                        );
-                      }
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                ],
-              ),
-            ),
+          content: FutureBuilder(
+            future: _productgroupService.getAllProductgroup(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final List<ProductgroupModel?> productGroups = snapshot.data!;
+
+                // Initialize a list of booleans to track the checkbox state for each item.
+                List<bool> isChecked =
+                    List<bool>.filled(productGroups.length, false);
+
+                return StatefulBuilder(
+                  // Use StatefulBuilder to manage state within the dialog
+                  builder: (BuildContext context, StateSetter setState) {
+                    return SizedBox(
+                      height: 300,
+                      width: 300,
+                      child: ListView.builder(
+                        itemCount: productGroups.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                                "${productGroups[index]?.productGroupDTO!.name}"),
+                            trailing: Checkbox(
+                              value: isChecked[
+                                  index], // Bind the value to isChecked list
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  isChecked[index] =
+                                      value!; // Update the specific checkbox state
+                                });
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
           actions: [
             SizedBox(
