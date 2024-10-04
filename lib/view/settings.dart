@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salesnrich_app_flutter/view/inventory.dart';
 
 class Settings_view extends StatefulWidget {
   const Settings_view({super.key});
@@ -8,11 +9,10 @@ class Settings_view extends StatefulWidget {
 }
 
 class _Settings_viewState extends State<Settings_view> {
-  int _selectedValue = 1;
-
+  int _selectedValue = Common.selectedValue;
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
@@ -42,7 +42,7 @@ class _Settings_viewState extends State<Settings_view> {
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       ListTile(
-                        title: const Text('Product Catagory'),
+                        title: const Text('Product Category'),
                         leading: Radio(
                           activeColor: Colors.blue[900],
                           value: 1,
@@ -50,6 +50,8 @@ class _Settings_viewState extends State<Settings_view> {
                           onChanged: (int? value) {
                             setState(() {
                               _selectedValue = value!;
+                              Common.selectedValue =
+                                  _selectedValue; // Save in Common class
                             });
                           },
                         ),
@@ -63,6 +65,8 @@ class _Settings_viewState extends State<Settings_view> {
                           onChanged: (int? value) {
                             setState(() {
                               _selectedValue = value!;
+                              Common.selectedValue =
+                                  _selectedValue; // Save in Common class
                             });
                           },
                         ),
@@ -72,7 +76,7 @@ class _Settings_viewState extends State<Settings_view> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

@@ -10,7 +10,6 @@ class API {
   final String sundryUrl = "/api/activities";
   final String inventoryUrl = "/api/product-profiles";
   final String productgroupUrl = "/api/product-group-products";
-
+  final String productcategoryUrl = "/api/product-categories";
   get allProductgroup => null;
-
 }
