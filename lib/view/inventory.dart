@@ -13,6 +13,7 @@ class InventoryView extends StatefulWidget {
 }
 
 class _InventoryViewState extends State<InventoryView> {
+  bool isChecked =false;
   // List of items in the dropdowns
   final List<String> _items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
 
@@ -196,7 +197,7 @@ class _InventoryViewState extends State<InventoryView> {
                           final List<ProductgroupModel?> product =
                               snapshot.data!;
                           return SizedBox(
-                            height: 200,
+                            height: 300,
                             width: 300,
                             child: ListView.builder(
                                 itemCount: product.length,
@@ -204,7 +205,18 @@ class _InventoryViewState extends State<InventoryView> {
                                   return ListTile(
                                     title: Text(
                                         "${product[index]?.productGroupDTO!.name}"),
-                                  );
+                                        trailing: Checkbox(
+                                          value: isChecked, onChanged: (bool?value){
+                                            setState(() {
+                                              isChecked =value!;
+                                            });
+                                          }),
+                                          onTap: (){
+                                            setState(() {
+                                              isChecked =isChecked;
+                                            });
+                                          },
+                                    );
                                 }),
                           );
                         }
