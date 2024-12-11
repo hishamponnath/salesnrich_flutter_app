@@ -158,7 +158,7 @@ class _InventoryViewState extends State<InventoryView> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                color: Colors.grey,
+                color: Colors.green[100],
                 child: FutureBuilder(
                   future: _inventoryService.getAllInventory(),
                   builder: (context, snapshot) {
